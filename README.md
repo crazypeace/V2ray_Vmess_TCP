@@ -3,10 +3,21 @@ V2ray最新版本，Vmess_TCP模式
 
 # 一键执行
 ```
+apt update
+apt install -y curl
 bash <(curl -L https://github.com/crazypeace/V2ray_Vmess_TCP/raw/main/install.sh)
 ```
 
 脚本中很大部分都是在校验用户的输入。其实照着下面的内容自己配置就行了。
+
+# 打开BBR
+```
+sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf
+echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
+sysctl -p >/dev/null 2>&1
+```
 
 # 安装V2ray最新版本
 ```
@@ -30,7 +41,7 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
                     {
                         "id": "你的v2rayID",             // ***改这里
                         "level": 1,
-                        "alterId": 0
+                        "alterId": 0                     // AEAD
                     }
                 ]
             },
@@ -120,3 +131,5 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
     }
 }
 ```
+
+# Uninstall
