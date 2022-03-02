@@ -14,6 +14,17 @@ error() {
     echo -e "\n$red 输入错误！$none\n"
 }
 
+pause() {
+	read -rsp "$(echo -e "按 $green Enter 回车键 $none 继续....或按 $red Ctrl + C $none 取消.")" -d $'\n'
+	echo
+}
+
+# 说明
+echo -e "$yellow此脚本仅兼容于Debian 10+系统. 如果你的系统不符合,请Ctrl+C退出脚本$none"
+echo -e "可以去 ${cyan}https://github.com/crazypeace/V2ray_Vmess_TCP${none} 查看脚本整体思路和关键命令, 以便针对你自己的系统做出调整."
+echo "----------------------------------------------------------------"
+pause
+
 # 准备工作
 apt update
 apt install -y bash curl sudo jq
@@ -22,6 +33,16 @@ apt install -y bash curl sudo jq
 echo -e "$yellow安装V2ray最新版本$none"
 echo "----------------------------------------------------------------"
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+
+# 打开BBR
+echo -e "$yellow打开BBR$none"
+echo "----------------------------------------------------------------"
+sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf
+echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
+sysctl -p >/dev/null 2>&1
+echo
 
 # 是否纯IPv6小鸡, 到底
 while :; do
@@ -114,7 +135,7 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
                     {
                         "id": "$v2ray_id",             // ***
                         "level": 1,
-                        "alterId": 0
+                        "alterId": 0                   // AEAD
                     }
                 ]
             },
