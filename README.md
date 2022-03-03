@@ -10,6 +10,10 @@ bash <(curl -L https://github.com/crazypeace/V2ray_Vmess_TCP/raw/main/install.sh
 
 脚本中很大部分都是在校验用户的输入。其实照着下面的内容自己配置就行了。
 
+# 设置时间
+timedatectl set-timezone Asia/Shanghai
+timedatectl set-ntp true
+
 # 打开BBR
 ```
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
