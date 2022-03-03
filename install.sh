@@ -29,6 +29,17 @@ pause
 apt update
 apt install -y bash curl sudo jq
 
+# 设置时间
+echo
+timedatectl set-timezone Asia/Shanghai
+timedatectl set-ntp true
+echo "已将你的主机设置为Asia/Shanghai时区并通过systemd-timesyncd自动同步时间。"
+echo
+
+echo -e "\n主机时间：${yellow}"
+timedatectl status | sed -n '1p;4p'
+echo -e "${none}"
+
 # 安装V2ray最新版本
 echo -e "$yellow安装V2ray最新版本$none"
 echo "----------------------------------------------------------------"
