@@ -55,32 +55,6 @@ echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
 sysctl -p >/dev/null 2>&1
 echo
 
-# 是否纯IPv6小鸡, 到底
-while :; do
-    read -p "$(echo -e "(是否纯IPv6小鸡: [${magenta}Y$none]):") " record
-    if [[ -z "$record" ]]; then
-        error
-    else
-        if [[ "$record" == [Yy] ]]; then
-            net_stack="ipv6"
-            echo
-            echo
-            echo -e "$yellow 以下流程按纯IPv6的环境执行$none"
-            echo "----------------------------------------------------------------"
-            echo
-            break
-        else
-            net_stack="ipv4"
-            echo
-            echo
-            echo -e "$yellow 以下流程按IPv4的环境执行$none"
-            echo "----------------------------------------------------------------"
-            echo
-            break
-        fi
-    fi
-done
-
 # 配置 Vmess_TCP 模式, 需要:V2ray端口, UUID
 echo -e "$yellow配置 Vmess_TCP 模式$none"
 echo "----------------------------------------------------------------"
