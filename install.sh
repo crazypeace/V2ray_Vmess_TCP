@@ -148,21 +148,17 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
             "protocol": "blackhole",
             "settings": {},
             "tag": "blocked"
-        },
-        {
-            "protocol": "mtproto",
-            "settings": {},
-            "tag": "tg-out"
         }
     ],
-    "dns": {
-        "servers": [
-            "https+local://8.8.8.8/dns-query",
-            "8.8.8.8",
-            "1.1.1.1",
-            "localhost"
-        ]
-    },
+// 跑在IPv6 only的小鸡上会把问题复杂化
+//    "dns": {
+//        "servers": [
+//            "https+local://8.8.8.8/dns-query",
+//            "8.8.8.8",
+//            "1.1.1.1",
+//            "localhost"
+//        ]
+//    },
     "routing": {
         "domainStrategy": "IPOnDemand",
         "rules": [
@@ -189,24 +185,12 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
             },
             {
                 "type": "field",
-                "inboundTag": ["tg-in"],
-                "outboundTag": "tg-out"
-            },
-            {
-                "type": "field",
                 "protocol": [
                     "bittorrent"
                 ],
                 "outboundTag": "blocked"
             }
         ]
-    },
-    "transport": {
-        "kcpSettings": {
-            "uplinkCapacity": 100,
-            "downlinkCapacity": 100,
-            "congestion": true
-        }
     }
 }
 EOF
