@@ -191,14 +191,14 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
                 "type": "field",
                 "inboundTag": ["tg-in"],
                 "outboundTag": "tg-out"
-            }           ,
-                {
-                    "type": "field",
-                    "protocol": [
-                        "bittorrent"
-                    ],
-                    "outboundTag": "blocked"
-                }
+            },
+            {
+                "type": "field",
+                "protocol": [
+                    "bittorrent"
+                ],
+                "outboundTag": "blocked"
+            }
         ]
     },
     "transport": {
