@@ -75,21 +75,8 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
             "protocol": "blackhole",
             "settings": {},
             "tag": "blocked"
-        },
-        {
-            "protocol": "mtproto",
-            "settings": {},
-            "tag": "tg-out"
         }
     ],
-    "dns": {
-        "servers": [
-            "https+local://8.8.8.8/dns-query",
-            "8.8.8.8",
-            "1.1.1.1",
-            "localhost"
-        ]
-    },
     "routing": {
         "domainStrategy": "IPOnDemand",
         "rules": [
@@ -116,26 +103,19 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
             },
             {
                 "type": "field",
-                "inboundTag": ["tg-in"],
-                "outboundTag": "tg-out"
-            }           ,
-                {
-                    "type": "field",
-                    "protocol": [
-                        "bittorrent"
-                    ],
-                    "outboundTag": "blocked"
-                }
+                "protocol": [
+                    "bittorrent"
+                ],
+                "outboundTag": "blocked"
+            }
         ]
-    },
-    "transport": {
-        "kcpSettings": {
-            "uplinkCapacity": 100,
-            "downlinkCapacity": 100,
-            "congestion": true
-        }
     }
 }
+```
+
+# 如果是 IPv6 only 的小鸡，用 WARP 添加 IPv4 能力
+```
+bash <(curl -fsSL git.io/warp.sh) 4
 ```
 
 # Uninstall
