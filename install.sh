@@ -206,7 +206,7 @@ service v2ray restart
 
 # IPv4
 ipv4=$(curl -4 -s https://api.myip.la)
-if [[ -z $ipv4 ]]; then
+if [[ -n $ipv4 ]]; then
     echo
     echo
     echo "---------- V2Ray 配置信息 -------------"
@@ -245,7 +245,7 @@ fi
 
 # IPv6
 ipv6=$(curl -6 -s https://api.myip.la)
-if [[ -z $ipv6 ]]; then
+if [[ -n $ipv6 ]]; then
     echo
     echo
     echo "---------- V2Ray 配置信息 -------------"
