@@ -31,7 +31,7 @@ apt update
 apt install -y curl sudo jq
 
 # 设置时间
-echo
+echo "如果你的小鸡是OpenVZ虚拟化, 不支持修改系统时间"
 timedatectl set-timezone Asia/Shanghai
 timedatectl set-ntp true
 echo "已将你的主机设置为Asia/Shanghai时区并通过systemd-timesyncd自动同步时间。"
@@ -203,42 +203,84 @@ echo -e "$yellow重启 V2Ray$none"
 echo "----------------------------------------------------------------"
 service v2ray restart
 
-ip=$(curl -s https://api.myip.la)
+# IPv4
+ipv4=$(curl -4 -s https://api.myip.la)
+if [[ -z $ipv4 ]]; then
+    echo
+    echo
+    echo "---------- V2Ray 配置信息 -------------"
+    echo
+    echo -e "$yellow 地址 (Address) = $cyan${ipv4}$none"
+    echo
+    echo -e "$yellow 端口 (Port) = $cyan$v2ray_port$none"
+    echo
+    echo -e "$yellow 用户ID (User ID / UUID) = $cyan${v2ray_id}$none"
+    echo
+    echo -e "$yellow 额外ID (Alter Id) = ${cyan}0${none}"
+    echo
+    echo -e "$yellow 传输协议 (Network) = ${cyan}tcp$none"
+    echo
+    echo -e "$yellow 伪装类型 (header type) = ${cyan}none$none"
+    echo
 
-echo
-echo
-echo "---------- V2Ray 配置信息 -------------"
-echo
-echo -e "$yellow 地址 (Address) = $cyan${ip}$none"
-echo
-echo -e "$yellow 端口 (Port) = $cyan$v2ray_port$none"
-echo
-echo -e "$yellow 用户ID (User ID / UUID) = $cyan${v2ray_id}$none"
-echo
-echo -e "$yellow 额外ID (Alter Id) = ${cyan}0${none}"
-echo
-echo -e "$yellow 传输协议 (Network) = ${cyan}tcp$none"
-echo
-echo -e "$yellow 伪装类型 (header type) = ${cyan}none$none"
-echo
+    echo "---------- V2Ray Vmess URL ----------"
+    echo
+    echo -e "$cyan vmess://$(echo -n "\
+    {\
+    \"v\": \"2\",\
+    \"ps\": \"Vmess_TCP_${ipv4}\",\
+    \"add\": \"${ipv4}\",\
+    \"port\": \"${v2ray_port}\",\
+    \"id\": \"${v2ray_id}\",\
+    \"aid\": \"0\",\
+    \"net\": \"tcp\",\
+    \"type\": \"none\",\
+    \"host\": \"\",\
+    \"path\": \"\",\
+    \"tls\": \"\"\
+    }"\
+    | base64 -w 0)$none"
+fi
 
-echo "---------- V2Ray Vmess URL ----------"
-echo
-echo -e "$cyan vmess://$(echo -n "\
-{\
-\"v\": \"2\",\
-\"ps\": \"Vmess_TCP_${ip}\",\
-\"add\": \"${ip}\",\
-\"port\": \"${v2ray_port}\",\
-\"id\": \"${v2ray_id}\",\
-\"aid\": \"0\",\
-\"net\": \"tcp\",\
-\"type\": \"none\",\
-\"host\": \"\",\
-\"path\": \"\",\
-\"tls\": \"\"\
-}"\
-| base64 -w 0)$none"
+# IPv6
+ipv6=$(curl -6 -s https://api.myip.la)
+if [[ -z $ipv6 ]]; then
+    echo
+    echo
+    echo "---------- V2Ray 配置信息 -------------"
+    echo
+    echo -e "$yellow 地址 (Address) = $cyan${ipv6}$none"
+    echo
+    echo -e "$yellow 端口 (Port) = $cyan$v2ray_port$none"
+    echo
+    echo -e "$yellow 用户ID (User ID / UUID) = $cyan${v2ray_id}$none"
+    echo
+    echo -e "$yellow 额外ID (Alter Id) = ${cyan}0${none}"
+    echo
+    echo -e "$yellow 传输协议 (Network) = ${cyan}tcp$none"
+    echo
+    echo -e "$yellow 伪装类型 (header type) = ${cyan}none$none"
+    echo
+
+    echo "---------- V2Ray Vmess URL ----------"
+    echo
+    echo -e "$cyan vmess://$(echo -n "\
+    {\
+    \"v\": \"2\",\
+    \"ps\": \"Vmess_TCP_${ipv6}\",\
+    \"add\": \"${ipv6}\",\
+    \"port\": \"${v2ray_port}\",\
+    \"id\": \"${v2ray_id}\",\
+    \"aid\": \"0\",\
+    \"net\": \"tcp\",\
+    \"type\": \"none\",\
+    \"host\": \"\",\
+    \"path\": \"\",\
+    \"tls\": \"\"\
+    }"\
+    | base64 -w 0)$none"
+fi
+
 echo
 echo "---------- END -------------"
 echo
