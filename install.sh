@@ -1,3 +1,4 @@
+echo -e "                     _ ___                   \n ___ ___ __ __ ___ _| |  _|___ __ __   _ ___ \n|-_ |_  |  |  |-_ | _ |   |- _|  |  |_| |_  |\n|___|___|  _  |___|___|_|_|___|  _  |___|___|\n        |_____|               |_____|        "
 red='\e[91m'
 green='\e[92m'
 yellow='\e[93m'
@@ -27,7 +28,7 @@ pause
 
 # 准备工作
 apt update
-apt install -y bash curl sudo jq
+apt install -y curl sudo jq
 
 # 设置时间
 echo
@@ -44,6 +45,8 @@ echo -e "${none}"
 echo -e "$yellow安装V2ray最新版本$none"
 echo "----------------------------------------------------------------"
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+
+systemctl enable v2ray
 
 # 打开BBR
 echo -e "$yellow打开BBR$none"
