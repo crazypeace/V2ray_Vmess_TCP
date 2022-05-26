@@ -31,7 +31,8 @@ apt update
 apt install -y curl sudo jq
 
 # 设置时间
-echo "如果你的小鸡是OpenVZ虚拟化, 不支持修改系统时间"
+echo 
+echo -e "${yellow}如果你的小鸡是OpenVZ虚拟化, 不支持修改系统时间${none}"
 timedatectl set-timezone Asia/Shanghai
 timedatectl set-ntp true
 echo "已将你的主机设置为Asia/Shanghai时区并通过systemd-timesyncd自动同步时间。"
