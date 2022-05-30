@@ -45,6 +45,7 @@ echo -e "${yellow}当前系统时间-上海时区${none}"
 TZ=Asia/Shanghai date -d @`date +%s` "+%Y-%m-%d %H:%M:%S";
 
 # 安装V2ray最新版本
+echo
 echo -e "$yellow安装V2ray最新版本$none"
 echo "----------------------------------------------------------------"
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
@@ -52,6 +53,7 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 systemctl enable v2ray
 
 # 打开BBR
+echo
 echo -e "$yellow打开BBR$none"
 echo "----------------------------------------------------------------"
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
@@ -62,6 +64,7 @@ sysctl -p >/dev/null 2>&1
 echo
 
 # 配置 Vmess_TCP 模式, 需要:V2ray端口, UUID
+echo
 echo -e "$yellow配置 Vmess_TCP 模式$none"
 echo "----------------------------------------------------------------"
 
@@ -108,6 +111,7 @@ while :; do
 done
 
 # 配置 /usr/local/etc/v2ray/config.json
+echo
 echo -e "$yellow配置 /usr/local/etc/v2ray/config.json$none"
 echo "----------------------------------------------------------------"
 cat >/usr/local/etc/v2ray/config.json <<-EOF
@@ -202,6 +206,7 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
 EOF
 
 # 重启 V2Ray
+echo
 echo -e "$yellow重启 V2Ray$none"
 echo "----------------------------------------------------------------"
 service v2ray restart
