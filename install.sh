@@ -1,3 +1,6 @@
+# 等待1秒, 避免curl下载脚本的打印与脚本本身的显示冲突, 吃掉了提示用户按回车继续的信息
+sleep 1
+
 echo -e "                     _ ___                   \n ___ ___ __ __ ___ _| |  _|___ __ __   _ ___ \n|-_ |_  |  |  |-_ | _ |   |- _|  |  |_| |_  |\n|___|___|  _  |___|___|_|_|___|  _  |___|___|\n        |_____|               |_____|        "
 red='\e[91m'
 green='\e[92m'
@@ -25,6 +28,19 @@ echo -e "$yellow此脚本仅兼容于Debian 10+系统. 如果你的系统不符�
 echo -e "可以去 ${cyan}https://github.com/crazypeace/V2ray_Vmess_TCP${none} 查看脚本整体思路和关键命令, 以便针对你自己的系统做出调整."
 echo -e "有问题加群 ${cyan}https://t.me/+D8aqonnCR3s1NTRl${none}"
 echo "----------------------------------------------------------------"
+
+# 执行脚本带参数
+if [ $# -ge 1 ]; then
+    v2ray_id=${1}
+    v2ray_port=${2}
+    if [[ -z $v2ray_port ]]; then
+        v2ray_port=$(shuf -i20001-65535 -n1)
+    fi
+
+    echo -e "v2ray_id: ${v2ray_id}"
+    echo -e "v2ray_port: ${v2ray_port}"
+fi
+
 pause
 
 # 准备工作
@@ -69,46 +85,50 @@ echo -e "$yellow配置 Vmess_TCP 模式$none"
 echo "----------------------------------------------------------------"
 
 # UUID
-uuid=$(cat /proc/sys/kernel/random/uuid)
-while :; do
-    echo -e "请输入 "$yellow"V2RayID"$none" "
-    read -p "$(echo -e "(默认ID: ${cyan}${uuid}$none):")" v2ray_id
-    [ -z "$v2ray_id" ] && v2ray_id=$uuid
-    case $(echo $v2ray_id | sed 's/[a-z0-9]\{8\}-[a-z0-9]\{4\}-[a-z0-9]\{4\}-[a-z0-9]\{4\}-[a-z0-9]\{12\}//g') in
-    "")
-        echo
-        echo
-        echo -e "$yellow V2RayID = $cyan$v2ray_id$none"
-        echo "----------------------------------------------------------------"
-        echo
-        break
-        ;;
-    *)
-        error
-        ;;
-    esac
-done
+if [[ -z $v2ray_id ]]; then
+    uuid=$(cat /proc/sys/kernel/random/uuid)
+    while :; do
+        echo -e "请输入 "$yellow"V2RayID"$none" "
+        read -p "$(echo -e "(默认ID: ${cyan}${uuid}$none):")" v2ray_id
+        [ -z "$v2ray_id" ] && v2ray_id=$uuid
+        case $(echo $v2ray_id | sed 's/[a-z0-9]\{8\}-[a-z0-9]\{4\}-[a-z0-9]\{4\}-[a-z0-9]\{4\}-[a-z0-9]\{12\}//g') in
+        "")
+            echo
+            echo
+            echo -e "$yellow V2RayID = $cyan$v2ray_id$none"
+            echo "----------------------------------------------------------------"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+fi
 
 # V2ray端口
-random=$(shuf -i20001-65535 -n1)
-while :; do
-    echo -e "请输入 "$yellow"V2Ray"$none" 端口 ["$magenta"1-65535"$none"]"
-    read -p "$(echo -e "(默认端口: ${cyan}${random}$none):")" v2ray_port
-    [ -z "$v2ray_port" ] && v2ray_port=$random
-    case $v2ray_port in
-    [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
-        echo
-        echo
-        echo -e "$yellow V2Ray 端口 = $cyan$v2ray_port$none"
-        echo "----------------------------------------------------------------"
-        echo
-        break
-        ;;
-    *)
-        error
-        ;;
-    esac
-done
+if [[ -z $v2ray_port ]]; then
+    random=$(shuf -i20001-65535 -n1)
+    while :; do
+        echo -e "请输入 "$yellow"V2Ray"$none" 端口 ["$magenta"1-65535"$none"]"
+        read -p "$(echo -e "(默认端口: ${cyan}${random}$none):")" v2ray_port
+        [ -z "$v2ray_port" ] && v2ray_port=$random
+        case $v2ray_port in
+        [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+            echo
+            echo
+            echo -e "$yellow V2Ray 端口 = $cyan$v2ray_port$none"
+            echo "----------------------------------------------------------------"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+fi
 
 # 配置 /usr/local/etc/v2ray/config.json
 echo
@@ -160,15 +180,6 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
             "tag": "blocked"
         }
     ],
-// 跑在IPv6 only的小鸡上会把问题复杂化
-//    "dns": {
-//        "servers": [
-//            "https+local://8.8.8.8/dns-query",
-//            "8.8.8.8",
-//            "1.1.1.1",
-//            "localhost"
-//        ]
-//    },
     "routing": {
         "domainStrategy": "IPOnDemand",
         "rules": [
