@@ -45,7 +45,7 @@ pause
 
 # 准备工作
 apt update
-apt install -y curl sudo jq
+apt install -y curl sudo jq qrencode
 
 # 设置时间
 timedatectl set-timezone Asia/Shanghai
@@ -243,22 +243,31 @@ if [[ -n $ipv4 ]]; then
     echo
 
     echo "---------- V2Ray Vmess URL ----------"
+    v2ray_vmess_url_v4="vmess://$(echo -n "\
+{\
+\"v\": \"2\",\
+\"ps\": \"Vmess_TCP_${ipv4}\",\
+\"add\": \"${ipv4}\",\
+\"port\": \"${v2ray_port}\",\
+\"id\": \"${v2ray_id}\",\
+\"aid\": \"0\",\
+\"net\": \"tcp\",\
+\"type\": \"none\",\
+\"host\": \"\",\
+\"path\": \"\",\
+\"tls\": \"\"\
+}"\
+    | base64 -w 0)"
+
+    echo -e "${cyan}${v2ray_vmess_url_v4}${none}"
+    echo "以下两个二维码完全一样的内容"
+    qrencode -t ANSI $v2ray_vmess_url_v4
+    qrencode -t UTF8 $v2ray_vmess_url_v4
     echo
-    echo -e "$cyan vmess://$(echo -n "\
-    {\
-    \"v\": \"2\",\
-    \"ps\": \"Vmess_TCP_${ipv4}\",\
-    \"add\": \"${ipv4}\",\
-    \"port\": \"${v2ray_port}\",\
-    \"id\": \"${v2ray_id}\",\
-    \"aid\": \"0\",\
-    \"net\": \"tcp\",\
-    \"type\": \"none\",\
-    \"host\": \"\",\
-    \"path\": \"\",\
-    \"tls\": \"\"\
-    }"\
-    | base64 -w 0)$none"
+    echo $v2ray_vmess_url_v4 > ~/_v2ray_vmess_url_v4_
+    echo "以下两个二维码完全一样的内容" >> ~/_v2ray_vmess_url_v4_
+    qrencode -t ANSI $v2ray_vmess_url_v4 >> ~/_v2ray_vmess_url_v4_
+    qrencode -t UTF8 $v2ray_vmess_url_v4 >> ~/_v2ray_vmess_url_v4_
 fi
 
 # IPv6
@@ -282,9 +291,7 @@ if [[ -n $ipv6 ]]; then
     echo
 
     echo "---------- V2Ray Vmess URL ----------"
-    echo
-# 减少生成的vmess链接长度
-echo -e "$cyan vmess://$(echo -n "\
+    v2ray_vmess_url_v6="vmess://$(echo -n "\
 {\
 \"v\": \"2\",\
 \"ps\": \"Vmess_TCP_${ipv6}\",\
@@ -298,8 +305,17 @@ echo -e "$cyan vmess://$(echo -n "\
 \"path\": \"\",\
 \"tls\": \"\"\
 }"\
-| base64 -w 0)$none"
+    | base64 -w 0)"
 
+    echo -e "${cyan}${v2ray_vmess_url_v6}${none}"
+    echo "以下两个二维码完全一样的内容"
+    qrencode -t ANSI $v2ray_vmess_url_v6
+    qrencode -t UTF8 $v2ray_vmess_url_v6
+    echo
+    echo $v2ray_vmess_url_v6 > ~/_v2ray_vmess_url_v6_
+    echo "以下两个二维码完全一样的内容" >> ~/_v2ray_vmess_url_v6_
+    qrencode -t ANSI $v2ray_vmess_url_v6 >> ~/_v2ray_vmess_url_v6_
+    qrencode -t UTF8 $v2ray_vmess_url_v6 >> ~/_v2ray_vmess_url_v6_
 fi
 
 echo
