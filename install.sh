@@ -283,21 +283,23 @@ if [[ -n $ipv6 ]]; then
 
     echo "---------- V2Ray Vmess URL ----------"
     echo
-    echo -e "$cyan vmess://$(echo -n "\
-    {\
-    \"v\": \"2\",\
-    \"ps\": \"Vmess_TCP_${ipv6}\",\
-    \"add\": \"${ipv6}\",\
-    \"port\": \"${v2ray_port}\",\
-    \"id\": \"${v2ray_id}\",\
-    \"aid\": \"0\",\
-    \"net\": \"tcp\",\
-    \"type\": \"none\",\
-    \"host\": \"\",\
-    \"path\": \"\",\
-    \"tls\": \"\"\
-    }"\
-    | base64 -w 0)$none"
+# 减少生成的vmess链接长度
+echo -e "$cyan vmess://$(echo -n "\
+{\
+\"v\": \"2\",\
+\"ps\": \"Vmess_TCP_${ipv6}\",\
+\"add\": \"${ipv6}\",\
+\"port\": \"${v2ray_port}\",\
+\"id\": \"${v2ray_id}\",\
+\"aid\": \"0\",\
+\"net\": \"tcp\",\
+\"type\": \"none\",\
+\"host\": \"\",\
+\"path\": \"\",\
+\"tls\": \"\"\
+}"\
+| base64 -w 0)$none"
+
 fi
 
 echo
