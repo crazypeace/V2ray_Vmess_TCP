@@ -1,4 +1,10 @@
-# V2ray_Vmess_TCP
+# 2022-9-8
+临时地，本脚本指定安装V2ray v4.45.2 (v5之前的最后一个v4)
+
+相关信息 
+v2fly/fhs-install-v2ray#243
+
+# 说明
 V2ray最新版本，Vmess_TCP模式
 
 # 一键执行

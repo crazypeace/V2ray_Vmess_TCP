@@ -60,11 +60,11 @@ date -u
 echo -e "${yellow}当前系统时间-上海时区${none}"
 TZ=Asia/Shanghai date -d @`date +%s` "+%Y-%m-%d %H:%M:%S";
 
-# 安装V2ray最新版本
+# (临时地)指定安装V2ray v4.45.2版本
 echo
-echo -e "$yellow安装V2ray最新版本$none"
+echo -e "$yellow(临时地)指定安装V2ray v4.45.2版本$none"
 echo "----------------------------------------------------------------"
-bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --version 4.45.2
 
 systemctl enable v2ray
 
