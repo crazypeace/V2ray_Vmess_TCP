@@ -261,13 +261,13 @@ if [[ -n $ipv4 ]]; then
 
     echo -e "${cyan}${v2ray_vmess_url_v4}${none}"
     echo "以下两个二维码完全一样的内容"
-    qrencode -t ANSI $v2ray_vmess_url_v4
     qrencode -t UTF8 $v2ray_vmess_url_v4
+    qrencode -t ANSI $v2ray_vmess_url_v4
     echo
     echo $v2ray_vmess_url_v4 > ~/_v2ray_vmess_url_v4_
     echo "以下两个二维码完全一样的内容" >> ~/_v2ray_vmess_url_v4_
-    qrencode -t ANSI $v2ray_vmess_url_v4 >> ~/_v2ray_vmess_url_v4_
     qrencode -t UTF8 $v2ray_vmess_url_v4 >> ~/_v2ray_vmess_url_v4_
+    qrencode -t ANSI $v2ray_vmess_url_v4 >> ~/_v2ray_vmess_url_v4_
 fi
 
 # IPv6
@@ -309,13 +309,13 @@ if [[ -n $ipv6 ]]; then
 
     echo -e "${cyan}${v2ray_vmess_url_v6}${none}"
     echo "以下两个二维码完全一样的内容"
-    qrencode -t ANSI $v2ray_vmess_url_v6
     qrencode -t UTF8 $v2ray_vmess_url_v6
+    qrencode -t ANSI $v2ray_vmess_url_v6
     echo
     echo $v2ray_vmess_url_v6 > ~/_v2ray_vmess_url_v6_
     echo "以下两个二维码完全一样的内容" >> ~/_v2ray_vmess_url_v6_
-    qrencode -t ANSI $v2ray_vmess_url_v6 >> ~/_v2ray_vmess_url_v6_
     qrencode -t UTF8 $v2ray_vmess_url_v6 >> ~/_v2ray_vmess_url_v6_
+    qrencode -t ANSI $v2ray_vmess_url_v6 >> ~/_v2ray_vmess_url_v6_
 fi
 
 echo
