@@ -33,9 +33,9 @@ echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
 sysctl -p >/dev/null 2>&1
 ```
 
-# 安装V2ray最新版本
+#  (临时地)指定安装V2ray v4.45.2版本
 ```
-bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --version 4.45.2
 ```
 
 # 配置 /usr/local/etc/v2ray/config.json
