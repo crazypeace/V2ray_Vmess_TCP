@@ -26,7 +26,7 @@ pause() {
 # 说明
 echo -e "$yellow此脚本仅兼容于Debian 10+系统. 如果你的系统不符合,请Ctrl+C退出脚本$none"
 echo -e "可以去 ${cyan}https://github.com/crazypeace/V2ray_Vmess_TCP${none} 查看脚本整体思路和关键命令, 以便针对你自己的系统做出调整."
-echo -e "有问题加群 ${cyan}https://t.me/+D8aqonnCR3s1NTRl${none}"
+echo -e "有问题加群 ${cyan}https://t.me/+ISuvkzFGZPBhMzE1${none}"
 echo "----------------------------------------------------------------"
 
 # 执行脚本带参数
@@ -223,7 +223,7 @@ echo "----------------------------------------------------------------"
 service v2ray restart
 
 # IPv4
-ipv4=$(curl -4 -s https://api.myip.la)
+ipv4=$(curl -4s --connect-timeout 3 https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 if [[ -n $ipv4 ]]; then
     echo
     echo
@@ -271,7 +271,7 @@ if [[ -n $ipv4 ]]; then
 fi
 
 # IPv6
-ipv6=$(curl -6 -s https://api.myip.la)
+ipv6=$(curl -6s --connect-timeout 3 https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 if [[ -n $ipv6 ]]; then
     echo
     echo
